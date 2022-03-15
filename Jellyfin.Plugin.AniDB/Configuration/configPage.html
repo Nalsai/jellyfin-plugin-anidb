@@ -34,6 +34,11 @@
                             <div class="fieldDescription">AniDB doesn't support seasons. If checked, it will treat every season like season one, except for specials.</div>
                         </div>
                         <div class="inputContainer">
+                            <label class="inputeLabel inputLabelUnfocused" for="chkTitleSimilarityThreshold">Title Similarity Threshold</label>
+                            <input id="chkTitleSimilarityThreshold" name="chkTitleSimilarityThreshold" type="number" is="emby-input" min="0" />
+                            <div class="fieldDescription">Set this to zero to only automatically match if the title of the show is exactly the same. A value of one means that one character can be inserted or deleted.</div>
+                        </div>
+                        <div class="inputContainer">
                             <label class="inputeLabel inputLabelUnfocused" for="chkMaxGenres">Max Genres</label>
                             <input id="chkMaxGenres" name="chkMaxGenres" type="number" is="emby-input" min="0" />
                             <div class="fieldDescription">Set this to zero to remove any limit.</div>
@@ -88,6 +93,7 @@
                         ApiClient.getPluginConfiguration(AniDBConfigurationPage.pluginUniqueId).then(function (config) {
                             document.getElementById('titleLanguage').value = config.TitlePreference;
                             document.getElementById('originalTitleLanguage').value = config.OriginalTitlePreference;
+                            document.getElementById('chkTitleSimilarityThreshold').value = config.TitleSimilarityThreshold;
                             document.getElementById('chkIgnoreSeason').checked = config.IgnoreSeason;
                             document.getElementById('chkMaxGenres').value = config.MaxGenres;
                             document.getElementById('chkTitleCaseGenres').checked = config.TitleCaseGenres;
@@ -106,6 +112,7 @@
                         ApiClient.getPluginConfiguration(AniDBConfigurationPage.pluginUniqueId).then(function (config) {
                             config.TitlePreference = document.getElementById('titleLanguage').value;
                             config.OriginalTitlePreference = document.getElementById('originalTitleLanguage').value;
+                            config.TitleSimilarityThreshold = document.getElementById('chkTitleSimilarityThreshold').value;
                             config.IgnoreSeason = document.getElementById('chkIgnoreSeason').checked;
                             config.MaxGenres = document.getElementById('chkMaxGenres').value;
                             config.TitleCaseGenres = document.getElementById('chkTitleCaseGenres').checked;
