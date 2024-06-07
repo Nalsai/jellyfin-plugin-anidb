@@ -581,8 +581,6 @@ namespace Jellyfin.Plugin.AniDB.Providers.AniDB.Metadata
             using (var response = await httpClient.GetAsync(url).ConfigureAwait(false))
             using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
             using (var reader = new StreamReader(stream, Encoding.UTF8, true))
-            using (var file = File.Open(seriesDataPath, FileMode.Create, FileAccess.Write))
-            using (var writer = new StreamWriter(file))
             {
                 var text = await reader.ReadToEndAsync().ConfigureAwait(false);
                 text = text.Replace("&#x0;", "");
@@ -593,6 +591,8 @@ namespace Jellyfin.Plugin.AniDB.Providers.AniDB.Metadata
                     throw new Exception("AniDB API error " + errorRegexMatch.Value);
                 }
 
+                using var file = File.Open(seriesDataPath, FileMode.Create, FileAccess.Write);
+                using var writer = new StreamWriter(file);
                 await writer.WriteAsync(text).ConfigureAwait(false);
             }
 
